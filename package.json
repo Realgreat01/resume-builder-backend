@@ -1,0 +1,22 @@
+{
+  "name": "resume-builder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon EXPRESS.JS",
+    "tailwind": "npx tailwindcss -i ./public/tailwind.css -o ./public/main.css --watch"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "ejs-static-converter": "^1.0.1",
+    "express": "^4.18.1",
+    "jwt": "^0.2.0",
+    "mongoose": "^6.6.4",
+    "tailwindcss": "^3.1.8",
+    "validator": "^13.7.0"
+  }
+}
