@@ -24,8 +24,8 @@ const UserSchema = new Schema({
 	basicDetails: BasicDetailSchema,
 	projects: [ProjectSchema],
 	experience: [ExperienceSchema],
-	skills: [SkillSchema],
-	education: [EducationSchema]
+	skills: SkillSchema,
+	education: [EducationSchema],
 });
 
 const UserResume = model('users', UserSchema);
