@@ -10,14 +10,14 @@ const submitSkills = async (req, res) => {
 	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
 	if (currentUser) {
 		try {
-			currentUser.skills.push({
+			currentUser.skills = {
 				topLanguage,
 				programmingLanguages,
 				frameworks,
 				stack,
-			});
+			};
 			const data = await currentUser.save();
-			console.log(data)
+			console.log(data);
 			res.status(201).json(data);
 		} catch (error) {
 			console.log(error.message);
