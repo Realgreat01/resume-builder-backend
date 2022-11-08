@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon EXPRESS.JS",
+    "build": "node EXPRESS.JS",
     "tailwind": "npx tailwindcss -i ./public/tailwind.css -o ./public/main.css --watch"
   },
   "dependencies": {
