@@ -9,7 +9,7 @@ const resumeRoute = require('./router/resume-routes');
 const allUserRoute = require('./router/SchemaRoutes');
 
 // MIDDLEWARES
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 const app = express();
 dotenv.config();
 app.use(cors());
@@ -34,7 +34,7 @@ mongoose.connect(process.env.MONGO_URI, err => {
 });
 
 // LISTENING TO PORT
-app.listen(PORT || 4000, () => {
+app.listen(PORT , () => {
 	console.log(`App is listening to ${PORT}`);
 });
 

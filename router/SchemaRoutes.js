@@ -2,7 +2,7 @@ const {Router} = require('express');
 const UserResume = require('../models/ResumeSchema.js');
 
 const router = Router();
-router.get('', async (req, res) => {
+router.get('/', async (req, res) => {
 	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
 	if (currentUser) {
 		console.log(currentUser);
