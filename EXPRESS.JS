@@ -9,12 +9,12 @@ const resumeRoute = require('./router/resume-routes');
 const allUserRoute = require('./router/SchemaRoutes');
 
 // MIDDLEWARES
-const PORT = process.env.PORT || 4000;
 const app = express();
-dotenv.config();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
+dotenv.config();
+const PORT = process.env.PORT || 4000;
 
 app.set('view engine', 'ejs');
 
@@ -33,11 +33,11 @@ mongoose.connect(process.env.MONGO_URI, err => {
 	else console.log('connected to Database successfully');
 });
 
-app.use('/', (req, res) => {
+app.use('', (req, res) => {
 	res.render('404page');
 });
 
 // LISTENING TO PORT
-app.listen(PORT , () => {
+app.listen(PORT, () => {
 	console.log(`App is listening to ${PORT}`);
 });
