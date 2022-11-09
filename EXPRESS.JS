@@ -33,11 +33,12 @@ mongoose.connect(process.env.MONGO_URI, err => {
 	else console.log('connected to Database successfully');
 });
 
-// LISTENING TO PORT
-app.listen(PORT , () => {
-	console.log(`App is listening to ${PORT}`);
-});
 
 app.use('/', (req, res) => {
 	res.render('404page');
+});
+
+// LISTENING TO PORT
+app.listen(PORT , () => {
+	console.log(`App is listening to ${PORT}`);
 });
