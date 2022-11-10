@@ -2,8 +2,7 @@
 	"version": 2,
 	"builds": [
 		{
-			"src": "EXPRESS.JS",
-			"use": "@now/node"
+			"src": "EXPRESS.JS"
 		}
 	],
 	"routes": [
