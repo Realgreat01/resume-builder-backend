@@ -11,14 +11,18 @@
 		"build": "node EXPRESS.JS",
 		"tailwind": "npx tailwindcss -i ./public/tailwind.css -o ./public/main.css --watch"
 	},
+	"engines": {
+		"node": ">=14"
+	},
 	"dependencies": {
+		"bcrypt": "^5.0.1",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.3",
 		"ejs": "^3.1.8",
+		"ejs-static-converter": "^1.0.1",
 		"express": "^4.18.1",
-		"mongoose": "^6.6.4"
-	},
-	"engines": {
-		"node": ">=14"
+		"jwt": "^0.2.0",
+		"mongoose": "^6.6.4",
+		"validator": "^13.7.0"
 	}
 }
