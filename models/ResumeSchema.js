@@ -1,5 +1,5 @@
 const {Schema, model} = require('mongoose');
-// const {isEmail} = require('validator');
+const {isEmail} = require('validator');
 
 const {BasicDetailSchema} = require('./schemas/basicDetails.js');
 const {ProjectSchema} = require('./schemas/projects.js');
@@ -13,7 +13,7 @@ const UserSchema = new Schema({
 		minLength: [6, 'email is too short'],
 		required: [true, 'email is required'],
 		unique: true,
-		// validate: [isEmail, 'Please Enter A Valid Email Address'],
+		validate: [isEmail, 'Please Enter A Valid Email Address'],
 	},
 	password: {
 		type: String,

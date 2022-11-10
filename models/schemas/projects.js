@@ -1,5 +1,6 @@
 const {Schema} = require('mongoose');
-// const {isURL} = require('Validator');
+const {isURL} = require('Validator');
+
 module.exports.ProjectSchema = new Schema({
 	projectDescription: {
 		type: String,
@@ -11,10 +12,10 @@ module.exports.ProjectSchema = new Schema({
 	},
 	githubRepo: {
 		type: String,
-		// validate: [isURL, 'Enter a valid URL'],
+		validate: [isURL, 'Enter a valid URL'],
 	},
 	previewLink: {
 		type: String,
-		// validate: [isURL, 'Enter a valid URL'],
+		validate: [isURL, 'Enter a valid URL'],
 	},
 });

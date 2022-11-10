@@ -1,5 +1,5 @@
 const {Schema} = require('mongoose');
-// const {isEmail, isMobilePhone} = require('validator');
+const {isEmail, isMobilePhone} = require('validator');
 
 module.exports.BasicDetailSchema = new Schema({
 	email: {
@@ -7,7 +7,7 @@ module.exports.BasicDetailSchema = new Schema({
 		minLength: [6, 'email is too short'],
 		required: [true, 'email is required'],
 		unique: true,
-		// validate: [isEmail, 'Please Enter A Valid Email Address'],
+		validate: [isEmail, 'Please Enter A Valid Email Address'],
 	},
 	password: {
 		type: String,
@@ -27,7 +27,7 @@ module.exports.BasicDetailSchema = new Schema({
 	phone: {
 		type: String,
 		required: [true, 'phone number is required'],
-		// validate: [isMobilePhone, 'please enter a valid phone number'],
+		validate: [isMobilePhone, 'please enter a valid phone number'],
 	},
 	github: {
 		type: String,
