@@ -1,0 +1,15 @@
+{
+	"version": 2,
+	"builds": [
+		{
+			"src": "EXPRESS.JS",
+			"use": "@now/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "EXPRESS.JS"
+		}
+	]
+}
