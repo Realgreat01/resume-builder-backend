@@ -1,5 +1,5 @@
 const {Schema} = require('mongoose');
-const {isURL} = require('Validator');
+const {isURL} = require('validator');
 
 module.exports.ProjectSchema = new Schema({
 	projectDescription: {
