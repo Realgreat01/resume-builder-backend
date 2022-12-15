@@ -1,22 +1,59 @@
 const UserResume = require('../models/ResumeSchema.js');
 const getEducation = async (req, res) => {
 	const allUsers = await UserResume.find();
-    res.status(200).json(allUsers);
+	res.status(200).json(allUsers);
 };
 
 const submitEducation = async (req, res) => {
 	const {institution, course, entryDate, graduationDate} = await req.body;
-	const currentUser = await UserResume.findOne({email: "samsonrealgreat@gmail.com"});
+	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
 	if (currentUser) {
 		try {
 			currentUser.education.push({institution, course, entryDate, graduationDate});
 			const data = await currentUser.save();
-			res.status(201).json(data);
+			res.status(201).json(data.education[data.education.length - 1]);
 		} catch (error) {
-			console.log(error.message);
-			res.status(402).json(error.message);
+			res.status(401).json(error.message);
 		}
-	} else res.status(402).json('user not found');
+	} else res.status(401).json('user not found');
 };
 
-module.exports = {submitEducation, getEducation};
+const updateEducation = async (req, res) => {
+	const {id} = await req.params;
+	const {institution, course, entryDate, graduationDate} = await req.body;
+	const currentUser = await UserResume.findOne({id});
+	if (currentUser) {
+		try {
+			let result = currentUser.education.filter(async (education, index) => {
+				if (education.id === id) {
+					currentUser.education[index] = {institution, course, entryDate, graduationDate};
+					const updated = await currentUser.save();
+					res.status(201).json(updated.education[index]);
+				}
+			});
+		} catch (error) {
+			res.status(401).json(error.message);
+		}
+	} else res.status(404).json('user not found');
+};
+
+const deleteEducation = async (req, res) => {
+	const {id} = await req.params;
+	const currentUser = await UserResume.findOne({id});
+	if (currentUser) {
+		try {
+			currentUser.education.filter(async (education, index) => {
+				if (education.id === id) {
+					console.log(education);
+					currentUser.education.splice(index, 1);
+					const updated = await currentUser.save();
+					res.status(201).json(updated.education);
+				} else res.status(401).json('Selected education has been previously deleted!');
+			});
+		} catch (error) {
+			res.status(401).json('unable to delete selected experience');
+		}
+	} else res.status(404).json('user not found');
+};
+
+module.exports = {submitEducation, getEducation, updateEducation, deleteEducation};

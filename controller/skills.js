@@ -1,8 +1,8 @@
 const UserResume = require('../models/ResumeSchema.js');
 
 const getSkills = async (req, res) => {
-	const allUsers = await UserResume.find();
-	res.status(200).json(allUsers);
+	const allUsers = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	res.status(200).json(allUsers.skills);
 };
 
 const submitSkills = async (req, res) => {
@@ -17,8 +17,8 @@ const submitSkills = async (req, res) => {
 				stack,
 			};
 			const data = await currentUser.save();
-			console.log(data);
-			res.status(201).json(data);
+			console.log(data.skills);
+			res.status(201).json(data.skills);
 		} catch (error) {
 			console.log(error.message);
 			res.status(402).json(error.message);

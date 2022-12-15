@@ -4,11 +4,11 @@ const {isURL} = require('validator');
 module.exports.ProjectSchema = new Schema({
 	projectDescription: {
 		type: String,
-		required: [true, 'description is required'],
+		required: [true, 'Project description is required'],
 	},
 	projectName: {
 		type: String,
-		required: [true, 'Name is required'],
+		required: [true, 'Project name is required'],
 	},
 	githubRepo: {
 		type: String,

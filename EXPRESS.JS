@@ -33,6 +33,10 @@ mongoose.connect(process.env.MONGO_URI, err => {
 	else console.log('connected to Database successfully');
 });
 
+app.get('/', (req, res) => {
+	res.render('');
+});
+
 app.use('/', (req, res) => {
 	res.render('404page');
 });

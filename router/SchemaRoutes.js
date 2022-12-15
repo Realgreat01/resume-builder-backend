@@ -3,10 +3,9 @@ const UserResume = require('../models/ResumeSchema.js');
 
 const router = Router();
 router.get('/', async (req, res) => {
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	const currentUser = await UserResume.find();
 	if (currentUser) {
-		console.log(currentUser);
-		res.status(200).json(currentUser);
+		res.status(200).json(currentUser.length);
 	} else res.status(402).json('user not found');
 });
 

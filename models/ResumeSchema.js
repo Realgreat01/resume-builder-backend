@@ -20,7 +20,10 @@ const UserSchema = new Schema({
 		required: [true, 'Password is required'],
 		minlength: [6, 'Password must be of minimum 6 characters long !'],
 	},
-
+	profilePicture: {
+		type: String,
+		default: '',
+	},
 	basicDetails: BasicDetailSchema,
 	projects: [ProjectSchema],
 	experience: [ExperienceSchema],
