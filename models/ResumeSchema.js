@@ -12,7 +12,7 @@ const UserSchema = new Schema({
 		type: String,
 		minLength: [6, 'email is too short'],
 		required: [true, 'email is required'],
-		unique: true,
+		unique: [true, 'email already exists'],
 		validate: [isEmail, 'Please Enter A Valid Email Address'],
 	},
 	password: {
@@ -23,6 +23,27 @@ const UserSchema = new Schema({
 	profilePicture: {
 		type: String,
 		default: '',
+	},
+	username: {
+		type: String,
+		lowercase: true,
+		minLength: [6, 'username is too short'],
+		required: [true, 'username  is required'],
+		unique: [true, 'username  already exists'],
+	},
+	firstname: {
+		type: String,
+		minLength: [2, 'lastname is too short'],
+		required: [true, 'lastname is required'],
+	},
+	lastname: {
+		type: String,
+		minLength: [2, 'lastname is too short'],
+		required: [true, 'lastname is required'],
+	},
+	middlename: {
+		type: String,
+		minLength: [2, 'middlename is too short'],
 	},
 	basicDetails: BasicDetailSchema,
 	projects: [ProjectSchema],

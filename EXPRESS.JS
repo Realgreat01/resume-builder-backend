@@ -2,10 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 // IMPORTING ROUTES
+const authenticateUser = require('./auth/auth-middleware');
+const authRoutes = require('./router/auth-routes');
 const resumeRoute = require('./router/resume-routes');
+const userRoute = require('./router/user-route');
 const allUserRoute = require('./router/SchemaRoutes');
 
 // MIDDLEWARES
@@ -13,13 +16,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
-dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 
 //USING ROUTES MIDDLEWARE
-app.use('/api/forms', resumeRoute);
+app.use('/api/forms', authenticateUser, resumeRoute);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', authenticateUser, userRoute);
 app.use('/users', allUserRoute);
 
 // ROUTES
@@ -46,4 +50,4 @@ app.listen(PORT, () => {
 	console.log(`App is listening to ${PORT}`);
 });
 
-module.exports = app
+module.exports = app;

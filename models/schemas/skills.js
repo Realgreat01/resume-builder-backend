@@ -3,7 +3,7 @@ const {Schema} = require('mongoose');
 module.exports.SkillSchema = new Schema({
 	stack: {
 		type: String,
-		enum: ['Frontend', 'BackEnd', 'Fullstack'],
+		enum: ['Frontend', 'Backend', 'Fullstack'],
 		required: true,
 	},
 	topLanguage: {

@@ -2,8 +2,10 @@ const UserResume = require('../models/ResumeSchema.js');
 
 // BASIC DETAILS
 const getBasicDetails = async (req, res) => {
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
-	res.status(200).json(currentUser.basicDetails);
+	const {id} = req.user;
+	const currentUser = await UserResume.findById(id);
+	const {email, username, profilePicture, firstname, lastname, middlename} = currentUser;
+	res.status(200).json({id, email, username, profilePicture, firstname, lastname, middlename});
 };
 
 // SUBMIT BASIC DETAILS
@@ -39,4 +41,4 @@ const updateBasicDetails = async (req, res) => {
 	}
 };
 
-module.exports = { submitBasicDetails, getBasicDetails, updateBasicDetails };
+module.exports = {submitBasicDetails, getBasicDetails, updateBasicDetails};

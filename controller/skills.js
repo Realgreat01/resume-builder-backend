@@ -1,13 +1,17 @@
 const UserResume = require('../models/ResumeSchema.js');
 
 const getSkills = async (req, res) => {
-	const allUsers = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
-	res.status(200).json(allUsers.skills);
+	const { id } = req.user;
+	const currentUser = await UserResume.findById(id);
+	if (currentUser) return res.status(200).json(currentUser.skills);
+	else return res.status(404).send('user not found');
 };
 
 const submitSkills = async (req, res) => {
+	const { id } = await req.user;
+	console.log(id)
 	const {topLanguage, programmingLanguages, frameworks, stack} = await req.body;
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	const currentUser = await UserResume.findById(id);
 	if (currentUser) {
 		try {
 			currentUser.skills = {
@@ -17,10 +21,8 @@ const submitSkills = async (req, res) => {
 				stack,
 			};
 			const data = await currentUser.save();
-			console.log(data.skills);
 			res.status(201).json(data.skills);
 		} catch (error) {
-			console.log(error.message);
 			res.status(402).json(error.message);
 		}
 	} else res.status(402).json('user not found');

@@ -1,12 +1,14 @@
 const UserResume = require('../models/ResumeSchema.js');
 const getEducation = async (req, res) => {
-	const allUsers = await UserResume.find();
-	res.status(200).json(allUsers);
+	const {id} = req.user;
+	const currentUser = await UserResume.findById(id);
+	res.status(200).json(currentUser.education);
 };
 
 const submitEducation = async (req, res) => {
+	const {id} = req.user;
 	const {institution, course, entryDate, graduationDate} = await req.body;
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	const currentUser = await UserResume.findById(id);
 	if (currentUser) {
 		try {
 			currentUser.education.push({institution, course, entryDate, graduationDate});
@@ -19,12 +21,15 @@ const submitEducation = async (req, res) => {
 };
 
 const updateEducation = async (req, res) => {
-	const {id} = await req.params;
+	const {id} = req.params;
+	console.log(id);
+	const userID = req.user.id;
+	const currentUser = await UserResume.findById(userID);
 	const {institution, course, entryDate, graduationDate} = await req.body;
-	const currentUser = await UserResume.findOne({id});
+
 	if (currentUser) {
 		try {
-			let result = currentUser.education.filter(async (education, index) => {
+			currentUser.education.find(async (education, index) => {
 				if (education.id === id) {
 					currentUser.education[index] = {institution, course, entryDate, graduationDate};
 					const updated = await currentUser.save();
@@ -39,16 +44,18 @@ const updateEducation = async (req, res) => {
 
 const deleteEducation = async (req, res) => {
 	const {id} = await req.params;
-	const currentUser = await UserResume.findOne({id});
+	const userID = req.user.id;
+	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
-			currentUser.education.filter(async (education, index) => {
+			currentUser.education.find(async (education, index) => {
 				if (education.id === id) {
 					console.log(education);
 					currentUser.education.splice(index, 1);
 					const updated = await currentUser.save();
-					res.status(201).json(updated.education);
-				} else res.status(401).json('Selected education has been previously deleted!');
+					return res.status(201).json(updated.education);
+				} else
+					return res.status(401).json('Selected education has been previously deleted!');
 			});
 		} catch (error) {
 			res.status(401).json('unable to delete selected experience');
