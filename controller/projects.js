@@ -1,14 +1,14 @@
 const UserResume = require('../models/ResumeSchema.js');
 const getProjects = async (req, res) => {
-	const allUsers = await UserResume.find();
-
-	res.status(200).json(allUsers);
+	const {id} = req.user;
+	const currentUser = await UserResume.findById(id);
+	res.status(200).json(currentUser.projects);
 };
 
 const submitProjects = async (req, res) => {
+	const {id} = req.user;
 	const {projectDescription, projectName, githubRepo, previewLink} = await req.body;
-
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	const currentUser = await UserResume.findById(id);
 
 	if (currentUser) {
 		console.log(currentUser.projects);
@@ -25,9 +25,10 @@ const submitProjects = async (req, res) => {
 
 const updateProjects = async (req, res) => {
 	const {id} = req.params;
+	const userID = req.user.id;
 	const {projectDescription, projectName, githubRepo, previewLink} = await req.body;
 
-	const currentUser = await UserResume.findOne({id});
+	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
 			currentUser.projects.filter(async (project, index) => {
@@ -50,16 +51,21 @@ const updateProjects = async (req, res) => {
 
 const deleteProjects = async (req, res) => {
 	const {id} = await req.params;
-	const currentUser = await UserResume.findOne({id});
+	const userID = await req.user.id;
+	const currentUser = await UserResume.findById(userID);
+
 	if (currentUser) {
 		try {
-			currentUser.projects.filter(async (project, index) => {
+			currentUser.projects.find(async (project, index) => {
+
 				if (project.id === id) {
-					const deletedProject = currentUser.projects.splice(index, 1);
-					await currentUser.save();
-					res.status(201).json(deletedProject);
+					
+					currentUser.projects.splice(index, 1);
+					const deleted = await currentUser.save();
+					return res.status(201).json(deleted.projects);
 				}
 			});
+
 		} catch (error) {
 			res.status(401).json(error.message);
 		}

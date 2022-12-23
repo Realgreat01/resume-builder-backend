@@ -1,19 +1,19 @@
 const UserResume = require('../models/ResumeSchema.js');
 const getExperience = async (req, res) => {
-	const {id} = await req.body;
-	const allUsers = await UserResume.findOne({id});
-	console.log(allUsers.experience);
-	res.status(200).json(allUsers);
+	const {id} = await req.user;
+	const currentUser = await UserResume.findById(id);
+	res.status(200).json(currentUser.experience);
 };
 
 const submitExperience = async (req, res) => {
+	const {id} = await req.user
 	const {company, role, startDate, endDate, contributions} = await req.body;
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	const currentUser = await UserResume.findById(id);
 	if (currentUser) {
 		try {
 			currentUser.experience.push({company, role, startDate, endDate, contributions});
 			const data = await currentUser.save();
-			res.status(201).json(data);
+			res.status(201).json(data.experience[data.experience.length - 1]);
 		} catch (error) {
 			res.status(401).json(error.message);
 		}

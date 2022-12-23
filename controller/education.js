@@ -22,7 +22,6 @@ const submitEducation = async (req, res) => {
 
 const updateEducation = async (req, res) => {
 	const {id} = req.params;
-	console.log(id);
 	const userID = req.user.id;
 	const currentUser = await UserResume.findById(userID);
 	const {institution, course, entryDate, graduationDate} = await req.body;
@@ -52,8 +51,8 @@ const deleteEducation = async (req, res) => {
 				if (education.id === id) {
 					console.log(education);
 					currentUser.education.splice(index, 1);
-					const updated = await currentUser.save();
-					return res.status(201).json(updated.education);
+					const deleted = await currentUser.save();
+					return res.status(201).json(deleted.education);
 				} else
 					return res.status(401).json('Selected education has been previously deleted!');
 			});

@@ -3,6 +3,7 @@ const cors = require('cors');
 const fs = require('fs');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const deta = require('deta');
 
 // IMPORTING ROUTES
 const authenticateUser = require('./auth/auth-middleware');
@@ -23,7 +24,7 @@ app.set('view engine', 'ejs');
 //USING ROUTES MIDDLEWARE
 app.use('/api/forms', authenticateUser, resumeRoute);
 app.use('/api/auth', authRoutes);
-app.use('/api/users', authenticateUser, userRoute);
+app.use('/api/users', userRoute); 
 app.use('/users', allUserRoute);
 
 // ROUTES
@@ -33,6 +34,7 @@ app.get('/resume', (req, res, next) => {
 
 // CONNECTING TO MONGODB
 mongoose.connect(process.env.MONGO_URI, err => {
+
 	if (err) console.log('Unable to connect to Database');
 	else console.log('connected to Database successfully');
 });
