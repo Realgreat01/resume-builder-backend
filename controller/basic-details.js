@@ -10,12 +10,14 @@ const getBasicDetails = async (req, res) => {
 
 // SUBMIT BASIC DETAILS
 const submitBasicDetails = async (req, res) => {
-	const basicDetails = await req.body;
-
+	const {email, username, profilePicture, firstname, lastname, middlename} = await req.body;
 	const userDetail = new UserResume({
-		email: basicDetails.email,
-		password: basicDetails.password,
-		basicDetails,
+		email,
+		username,
+		profilePicture,
+		firstname,
+		lastname,
+		middlename,
 	});
 	try {
 		const data = await userDetail.save();
@@ -28,8 +30,9 @@ const submitBasicDetails = async (req, res) => {
 
 // UPDATE BASIC DETAILS
 const updateBasicDetails = async (req, res) => {
-	const basicDetails = await req.body;
-	const currentUser = await UserResume.findOne({email: 'samsonrealgreat@gmail.com'});
+	const userID = req.user.userID;
+	const {email, username, profilePicture, firstname, lastname, middlename} = await req.body;
+	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
 			currentUser.basicDetails = basicDetails;
