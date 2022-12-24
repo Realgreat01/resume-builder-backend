@@ -6,7 +6,7 @@ const getExperience = async (req, res) => {
 };
 
 const submitExperience = async (req, res) => {
-	const {id} = await req.user
+	const {id} = await req.user;
 	const {company, role, startDate, endDate, contributions} = await req.body;
 	const currentUser = await UserResume.findById(id);
 	if (currentUser) {
@@ -21,9 +21,10 @@ const submitExperience = async (req, res) => {
 };
 
 const updateExperience = async (req, res) => {
+	const userID = await req.user.id;
 	const {id} = await req.params;
 	const {company, role, startDate, endDate, contributions} = await req.body;
-	const currentUser = await UserResume.findOne({id});
+	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
 			const result = currentUser.experience.filter(async (experience, index, array) => {
@@ -49,15 +50,16 @@ const updateExperience = async (req, res) => {
 };
 
 const deleteExperience = async (req, res) => {
+	const userID = await req.user.id;
 	const {id} = await req.params;
-	const currentUser = await UserResume.findOne({id});
+	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
 			currentUser.experience.filter(async (experience, index) => {
 				if (experience.id === id) {
-					const deletedExperience = currentUser.experience.splice(index, 1);
-					await currentUser.save();
-					res.status(201).json(deletedExperience);
+					currentUser.experience.splice(index, 1);
+					const deleted = await currentUser.save();
+					return res.status(201).json(deleted.experience);
 				}
 			});
 		} catch (error) {

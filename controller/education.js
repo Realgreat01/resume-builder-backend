@@ -49,7 +49,6 @@ const deleteEducation = async (req, res) => {
 		try {
 			currentUser.education.find(async (education, index) => {
 				if (education.id === id) {
-					console.log(education);
 					currentUser.education.splice(index, 1);
 					const deleted = await currentUser.save();
 					return res.status(201).json(deleted.education);
