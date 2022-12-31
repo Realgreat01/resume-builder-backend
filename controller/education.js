@@ -1,8 +1,8 @@
 const UserResume = require('../models/ResumeSchema.js');
 const getEducation = async (req, res) => {
 	const {id} = req.user;
-	const currentUser = await UserResume.findById(id);
-	res.status(200).json(currentUser.education);
+	const {education} = await UserResume.findById(id);
+	res.status(200).json(education);
 };
 
 const submitEducation = async (req, res) => {

@@ -1,7 +1,7 @@
 const {Schema} = require('mongoose');
-const {isMobilePhone} = require('validator');
+const {isMobilePhone, isURL} = require('validator');
 
-module.exports.BasicDetailSchema = new Schema({
+module.exports.contactDetailSchema = new Schema({
 	phone: {
 		type: String,
 		required: [true, 'phone number is required'],
@@ -9,11 +9,14 @@ module.exports.BasicDetailSchema = new Schema({
 	},
 	github: {
 		type: String,
+		validate: [isURL, 'Enter a valid URL'],
 	},
 	twitter: {
 		type: String,
+		validate: [isURL, 'Enter a valid URL'],
 	},
 	linkedin: {
 		type: String,
+		validate: [isURL, 'Enter a valid URL'],
 	},
 });

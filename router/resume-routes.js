@@ -6,6 +6,11 @@ const {
 	getBasicDetails,
 	updateBasicDetails,
 } = require('../controller/basic-details');
+const {
+	submitContactDetails,
+	getContactDetails,
+	updateContactDetails,
+} = require('../controller/contact-details');
 
 // Projects
 const {
@@ -38,6 +43,11 @@ const {
 router.get('/basic-details', getBasicDetails);
 router.post('/basic-details', submitBasicDetails);
 router.put('/basic-details', updateBasicDetails);
+
+// contact details
+router.get('/contact-details', getContactDetails);
+router.post('/contact-details', submitContactDetails);
+router.put('/contact-details', updateContactDetails);
 
 // Projects routes
 router.get('/projects', getProjects);

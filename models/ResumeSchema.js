@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 const {isEmail} = require('validator');
 
-const {BasicDetailSchema} = require('./schemas/basicDetails.js');
+const {contactDetailSchema} = require('./schemas/contactDetails.js');
 const {ProjectSchema} = require('./schemas/projects.js');
 const {SkillSchema} = require('./schemas/skills.js');
 const {ExperienceSchema} = require('./schemas/experience.js');
@@ -12,6 +12,7 @@ const UserSchema = new Schema({
 		type: String,
 		minLength: [6, 'email is too short'],
 		required: [true, 'email is required'],
+		lowercase: true,
 		unique: [true, 'email already exists'],
 		validate: [isEmail, 'Please Enter A Valid Email Address'],
 	},
@@ -20,9 +21,16 @@ const UserSchema = new Schema({
 		required: [true, 'Password is required'],
 		minlength: [6, 'Password must be of minimum 6 characters long !'],
 	},
+	gender: {
+		type: String,
+		enum: ['Male', 'Female', 'Others'],
+	},
 	profilePicture: {
 		type: String,
-		default: '',
+	},
+	bio: {
+		type: String,
+		minLength: [24, 'Bio is too short'],
 	},
 	username: {
 		type: String,
@@ -45,7 +53,7 @@ const UserSchema = new Schema({
 		type: String,
 		minLength: [2, 'middlename is too short'],
 	},
-	basicDetails: BasicDetailSchema,
+	contactDetails: contactDetailSchema,
 	projects: [ProjectSchema],
 	experience: [ExperienceSchema],
 	skills: SkillSchema,

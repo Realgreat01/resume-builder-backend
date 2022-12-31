@@ -11,6 +11,7 @@ const authRoutes = require('./router/auth-routes');
 const resumeRoute = require('./router/resume-routes');
 const userRoute = require('./router/user-route');
 const allUserRoute = require('./router/SchemaRoutes');
+const testRoute = require('./test-routes');
 
 // MIDDLEWARES
 const app = express();
@@ -24,8 +25,9 @@ app.set('view engine', 'ejs');
 //USING ROUTES MIDDLEWARE
 app.use('/api/forms', authenticateUser, resumeRoute);
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoute); 
+app.use('/api/users', userRoute);
 app.use('/users', allUserRoute);
+app.use('/test', testRoute);
 
 // ROUTES
 app.get('/resume', (req, res, next) => {
@@ -34,7 +36,6 @@ app.get('/resume', (req, res, next) => {
 
 // CONNECTING TO MONGODB
 mongoose.connect(process.env.MONGO_URI, err => {
-
 	if (err) console.log('Unable to connect to Database');
 	else console.log('connected to Database successfully');
 });

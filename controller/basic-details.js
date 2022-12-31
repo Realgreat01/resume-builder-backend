@@ -10,11 +10,10 @@ const getBasicDetails = async (req, res) => {
 
 // SUBMIT BASIC DETAILS
 const submitBasicDetails = async (req, res) => {
-	const {email, username, profilePicture, firstname, lastname, middlename} = await req.body;
+	const {bio, gender, firstname, lastname, middlename} = await req.body;
 	const userDetail = new UserResume({
-		email,
-		username,
-		profilePicture,
+		bio,
+		gender,
 		firstname,
 		lastname,
 		middlename,
