@@ -2,6 +2,5 @@ node_modules
 .env
 .vscode
 test.js
-test-routes.js
 package-lock.json
 yarn.lock
