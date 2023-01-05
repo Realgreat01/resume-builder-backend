@@ -27,8 +27,7 @@ app.use('/api/forms', authenticateUser, resumeRoute);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoute);
 app.use('/users', allUserRoute);
-app.use('/test', testRoute);
-
+app.use('/test', testRoute);;
 // ROUTES
 app.get('/resume', (req, res, next) => {
 	res.render('resume');

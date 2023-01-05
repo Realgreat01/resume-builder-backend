@@ -8,7 +8,7 @@ module.exports.ExperienceSchema = new Schema({
 	},
 	contributions: {
 		type: [String],
-		required: [true, 'Contributions are required'],
+		required: [true, 'Contributions are required']
 	},
 	startDate: {
 		type: Date,
@@ -20,6 +20,6 @@ module.exports.ExperienceSchema = new Schema({
 	},
 	role: {
 		type: String,
-		required: true,
+		required: [true, 'Role is required'],
 	},
 });

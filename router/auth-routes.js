@@ -2,6 +2,7 @@ const router = require('express').Router();
 const UserSchema = require('../models/ResumeSchema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const errorHandler = require('../errors');
 
 router.post('/register', async (req, res, next) => {
 	const {email, password, username, firstname, lastname, middlename} = await req.body;
@@ -21,10 +22,10 @@ router.post('/register', async (req, res, next) => {
 			const {firstname: firstName, lastname: lastName} = newUser;
 			const token = jwt.sign({id: User.id}, process.env.ACCESS_TOKEN);
 			res.status(201).header({'auth-token': token}).json({lastName, firstName, token});
-		} catch (error) {
-			res.status(400).send(error.message);
+		} catch (err) {
+			res.status(400).json(errorHandler(err));
 		}
-	}
+	} else res.status(401).json('Password must be of minimum 6 characters long !');
 });
 
 router.post('/login', async (req, res, next) => {

@@ -1,5 +1,5 @@
 const UserResume = require('../models/ResumeSchema');
-
+const errorHandler = require("../errors")
 const getContactDetails = async (req, res) => {
 	const {id} = req.user;
 	const {contactDetails} = await UserResume.findById(id);
@@ -18,7 +18,7 @@ const submitContactDetails = async (req, res) => {
 			res.status(201).json({contactDetails: updated.contactDetails});
 		} catch (error) {
 			if (error) {
-				res.status(403).json(error.message);
+				res.status(403).json(errorHandler(error));
 			}
 		}
 	}
@@ -35,7 +35,7 @@ const updateContactDetails = async (req, res) => {
 			res.status(201).json({contactDetails: updated.contactDetails});
 		} catch (error) {
 			if (error) {
-				res.status(403).json(error.message);
+				res.status(403).json(errorHandler(error));
 			}
 		}
 	}

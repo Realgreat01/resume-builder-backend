@@ -1,5 +1,5 @@
 const UserResume = require('../models/ResumeSchema.js');
-
+const errorHandler = require('../errors');
 // BASIC DETAILS
 const getBasicDetails = async (req, res) => {
 	const {id} = req.user;
@@ -22,8 +22,7 @@ const submitBasicDetails = async (req, res) => {
 		const data = await userDetail.save();
 		res.status(201).json(data);
 	} catch (error) {
-		console.log(error.message);
-		res.status(402).json(error.message);
+		res.status(402).json(errorHandler(error));
 	}
 };
 

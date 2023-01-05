@@ -1,4 +1,5 @@
 const UserResume = require('../models/ResumeSchema.js');
+const errorHandler = require('../errors');
 const getProjects = async (req, res) => {
 	const {id} = req.user;
 	const currentUser = await UserResume.findById(id);
@@ -11,14 +12,12 @@ const submitProjects = async (req, res) => {
 	const currentUser = await UserResume.findById(id);
 
 	if (currentUser) {
-		console.log(currentUser.projects);
 		try {
 			currentUser.projects.push({projectDescription, projectName, githubRepo, previewLink});
 			const data = await currentUser.save();
 			res.status(201).json(data.projects[data.projects.length - 1]);
 		} catch (error) {
-			console.log(error.message);
-			res.status(402).json('error ' + error.message);
+			res.status(402).json(errorHandler(error));
 		}
 	} else res.status(402).json('user not found');
 };
@@ -57,15 +56,12 @@ const deleteProjects = async (req, res) => {
 	if (currentUser) {
 		try {
 			currentUser.projects.find(async (project, index) => {
-
 				if (project.id === id) {
-					
 					currentUser.projects.splice(index, 1);
 					const deleted = await currentUser.save();
 					return res.status(201).json(deleted.projects);
 				}
 			});
-
 		} catch (error) {
 			res.status(401).json(error.message);
 		}

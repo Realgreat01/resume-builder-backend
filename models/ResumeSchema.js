@@ -36,8 +36,8 @@ const UserSchema = new Schema({
 		type: String,
 		lowercase: true,
 		minLength: [6, 'username is too short'],
-		required: [true, 'username  is required'],
-		unique: [true, 'username  already exists'],
+		required: [true, 'username is required'],
+		unique: [true, 'username already exists'],
 	},
 	firstname: {
 		type: String,

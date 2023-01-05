@@ -4,7 +4,7 @@ module.exports.SkillSchema = new Schema({
 	stack: {
 		type: String,
 		enum: ['Frontend', 'Backend', 'Fullstack'],
-		required: true,
+		required: [true, 'Please kindly indicate your stack'],
 	},
 	topLanguage: {
 		type: String,
