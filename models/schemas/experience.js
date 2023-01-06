@@ -8,15 +8,14 @@ module.exports.ExperienceSchema = new Schema({
 	},
 	contributions: {
 		type: [String],
-		required: [true, 'Contributions are required']
+		required: [true, 'Contributions are required'],
 	},
 	startDate: {
 		type: Date,
 		required: [true, 'Start Date is required'],
 	},
 	endDate: {
-		type: String || Date,
-		default: 'present',
+		type: Date,
 	},
 	role: {
 		type: String,

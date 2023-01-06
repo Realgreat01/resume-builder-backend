@@ -19,9 +19,8 @@ router.post('/register', async (req, res, next) => {
 		});
 		try {
 			const newUser = await User.save();
-			const {firstname: firstName, lastname: lastName} = newUser;
 			const token = jwt.sign({id: User.id}, process.env.ACCESS_TOKEN);
-			res.status(201).header({'auth-token': token}).json({lastName, firstName, token});
+			res.status(201).header({'auth-token': token}).json({username: newUser.username, token});
 		} catch (err) {
 			res.status(400).json(errorHandler(err));
 		}
@@ -37,8 +36,8 @@ router.post('/login', async (req, res, next) => {
 			const {id, username} = currentUser;
 			const token = jwt.sign({id}, process.env.ACCESS_TOKEN);
 			res.header({'auth-token': token}).json({token, username});
-		} else return res.status(400).json('Email or Password not correct');
-	} else return res.status(404).json('Email or Password not correct!');
+		} else return res.status(400).json({error: 'email or password not correct!'});
+	} else return res.status(404).json({error: 'email or password not correct!'});
 });
 
 router.post('/change-password', () => {});

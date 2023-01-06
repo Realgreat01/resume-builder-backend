@@ -10,7 +10,6 @@ const getSkills = async (req, res) => {
 
 const submitSkills = async (req, res) => {
 	const {id} = await req.user;
-	console.log(id);
 	const {topLanguage, programmingLanguages, frameworks, stack} = await req.body;
 	const currentUser = await UserResume.findById(id);
 	if (currentUser) {

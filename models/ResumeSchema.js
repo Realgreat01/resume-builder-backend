@@ -51,6 +51,7 @@ const UserSchema = new Schema({
 	},
 	middlename: {
 		type: String,
+		required: [true, 'middlename is required'],
 		minLength: [2, 'middlename is too short'],
 	},
 	contactDetails: contactDetailSchema,

@@ -18,6 +18,7 @@ module.exports.ProjectSchema = new Schema({
 	},
 	previewLink: {
 		type: String,
+		required: [true, 'Project preview link is required'],
 		validate: [isURL, 'Enter a valid URL'],
 	},
 });

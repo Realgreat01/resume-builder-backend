@@ -11,10 +11,10 @@ module.exports.EducationSchema = new Schema({
 	},
 	entryDate: {
 		type: Date,
-		required: [true, 'Entry Date is required'],
+		required: [true, 'Entry date is required'],
 	},
 	graduationDate: {
 		type: Date,
-		required: [true, 'Graduation Date is required'],
+		required: [true, 'Graduation date is required'],
 	},
 });
