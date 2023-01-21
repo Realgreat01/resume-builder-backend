@@ -4,14 +4,14 @@ const router = require('express').Router();
 
 router.get('/:username', async (req, res, next) => {
 	const {username} = req.params;
-	// console.log(req.user);
-	if (req.user) {
+
+	try {
 		const User = await UserSchema.findOne({username});
-		if (User && User.id === req.user.id) {
-			res.status(200).json(User);
-		} else {
-			res.status(404).send('no user found');
-		}
+		if (User) return res.status(200).json(User);
+		throw new Error('user not found');
+	} catch (e) {
+		console.log(e);
+		return res.status(404).json(e);
 	}
 });
 module.exports = router;

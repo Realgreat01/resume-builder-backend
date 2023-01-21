@@ -34,13 +34,14 @@ router.post('/login', async (req, res, next) => {
 		const passwordIsCorrect = await bcrypt.compare(password, currentUser.password);
 		if (passwordIsCorrect) {
 			const {id, username} = currentUser;
-			const token = jwt.sign({id}, process.env.ACCESS_TOKEN);
-			res.header({'auth-token': token}).json({token, username});
+			const token = await jwt.sign({id}, process.env.ACCESS_TOKEN);
+			return res.header({'auth-token': token}).json({token, username});
 		} else return res.status(400).json({error: 'email or password not correct!'});
 	} else return res.status(404).json({error: 'email or password not correct!'});
 });
 
 router.post('/change-password', () => {});
+router.post('/logout', () => {});
 
 router.post('/forgot-password', (req, res, next) => {});
 

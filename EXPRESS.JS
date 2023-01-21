@@ -5,13 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const deta = require('deta');
 
-// IMPORTING ROUTES
-const authenticateUser = require('./auth/auth-middleware');
-const authRoutes = require('./router/auth-routes');
-const resumeRoute = require('./router/resume-routes');
-const userRoute = require('./router/user-route');
-const allUserRoute = require('./router/SchemaRoutes');
-const testRoute = require('./test-routes');
+
 
 // MIDDLEWARES
 const app = express();
@@ -19,8 +13,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 const PORT = process.env.PORT || 3000;
-
 app.set('view engine', 'ejs');
+
+// IMPORTING ROUTES
+const authenticateUser = require('./auth/auth-middleware');
+const authRoutes = require('./router/auth-routes');
+const resumeRoute = require('./router/resume-routes');
+const userRoute = require('./router/user-route');
+const allUserRoute = require('./router/SchemaRoutes');
+const testRoute = require('./test-routes');
 
 //USING ROUTES MIDDLEWARE
 app.use('/api/forms', authenticateUser, resumeRoute);
