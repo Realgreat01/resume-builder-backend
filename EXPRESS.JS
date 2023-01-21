@@ -3,7 +3,6 @@ const cors = require('cors');
 const fs = require('fs');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const deta = require('deta');
 
 
 
