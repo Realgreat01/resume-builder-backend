@@ -8,8 +8,7 @@
 	"private": false,
 	"scripts": {
 		"dev": "nodemon EXPRESS.JS",
-		"start": "nodemon EXPRESS.JS",
-		"build": "nodemon EXPRESS.JS"
+		"start": "nodemon EXPRESS.JS"
 	},
 	"dependencies": {
 		"axios": "^1.2.3",
