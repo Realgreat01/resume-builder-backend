@@ -4,8 +4,6 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-
-
 // MIDDLEWARES
 const app = express();
 app.use(cors());
@@ -27,17 +25,13 @@ app.use('/api/forms', authenticateUser, resumeRoute);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoute);
 app.use('/users', allUserRoute);
-app.use('/test', testRoute);;
+app.use('/test', testRoute);
 // ROUTES
 app.get('/resume', (req, res, next) => {
 	res.render('resume');
 });
 
 // CONNECTING TO MONGODB
-mongoose.connect(process.env.MONGO_URI, err => {
-	if (err) console.log('Unable to connect to Database');
-	else console.log('connected to Database successfully');
-});
 
 app.get('/', (req, res) => {
 	res.render('');
@@ -47,9 +41,16 @@ app.use('/', (req, res) => {
 	res.render('404page');
 });
 
-// LISTENING TO PORT
-app.listen(PORT, () => {
-	console.log(`App is listening to ${PORT}`);
+mongoose.connect(process.env.MONGO_URI, err => {
+	if (err) console.log('Unable to connect to Database');
+	else {
+		console.log('connected to Database successfully');
+		app.listen(PORT, () => {
+			console.log(`App is listening to ${PORT}`);
+		});
+	}
 });
+// LISTENING TO PORT
+
 
 module.exports = app;
