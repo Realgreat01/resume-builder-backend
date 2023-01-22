@@ -54,11 +54,11 @@ const UserSchema = new Schema({
 		required: [true, 'middlename is required'],
 		minLength: [2, 'middlename is too short'],
 	},
-	contactDetails: contactDetailSchema,
-	projects: [ProjectSchema],
-	experience: [ExperienceSchema],
-	skills: SkillSchema,
-	education: [EducationSchema],
+	contactDetails: {type: contactDetailSchema, default: () => ({})},
+	projects: {type: [ProjectSchema], default: () => ({})},
+	experience: {type: [ExperienceSchema], default: () => ({})},
+	skills: {type: SkillSchema, default: () => ({})},
+	education: {type: [EducationSchema], default: () => ({})},
 });
 
 const UserResume = model('users', UserSchema);

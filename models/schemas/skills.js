@@ -12,6 +12,7 @@ module.exports.SkillSchema = new Schema({
 	},
 	programmingLanguages: {
 		type: [String],
+		default: () => ({}),
 		required: [true, 'programming languages are required'],
 	},
 	frameworks: {

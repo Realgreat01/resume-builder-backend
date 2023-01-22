@@ -30,20 +30,23 @@ const updateProjects = async (req, res) => {
 	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
-			currentUser.projects.filter(async (project, index) => {
-				if (project.id === id) {
-					currentUser.projects[index] = {
-						projectDescription,
-						projectName,
-						githubRepo,
-						previewLink,
-					};
-					await currentUser.save();
-					res.status(201).json(currentUser.projects[index]);
-				}
-			});
+			const index = currentUser.projects.findIndex(project => project.id === id);
+			if (index >= 0) {
+				currentUser.projects[index] = {
+					projectDescription,
+					projectName,
+					githubRepo,
+					previewLink,
+				};
+				currentUser.save((err, data) => {
+					if (err) return res.status(500).json(errorHandler(err));
+					return res.status(201).json(data.projects[index]);
+				});
+			} else if (currentUser.projects.some(project => project.id === id) === false) {
+				return res.status(201).json('Selected project has been recently modified');
+			}
 		} catch (error) {
-			res.status(401).json(error.message);
+			return res.status(500).json(errorHandler(error));
 		}
 	} else res.status(404).json('user not found');
 };
@@ -55,15 +58,11 @@ const deleteProjects = async (req, res) => {
 
 	if (currentUser) {
 		try {
-			currentUser.projects.find(async (project, index) => {
-				if (project.id === id) {
-					currentUser.projects.splice(index, 1);
-					const deleted = await currentUser.save();
-					return res.status(201).json(deleted.projects);
-				}
-			});
+			currentUser.projects.pull(id);
+			const deletedProject = await currentUser.save();
+			return res.status(201).json(deletedProject.projects);
 		} catch (error) {
-			res.status(401).json(error.message);
+			res.status(401).json(errorHandler(error));
 		}
 	} else res.status(404).json('user not found');
 };

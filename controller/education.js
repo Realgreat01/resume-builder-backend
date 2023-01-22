@@ -1,4 +1,5 @@
 const UserResume = require('../models/ResumeSchema.js');
+const EducationSchema = require('../models/schemas/education.js');
 const errorHandler = require('../errors');
 
 const getEducation = async (req, res) => {
@@ -21,7 +22,6 @@ const submitEducation = async (req, res) => {
 		}
 	} else res.status(401).json('user not found');
 };
-
 const updateEducation = async (req, res) => {
 	const {id} = req.params;
 	const userID = req.user.id;
@@ -30,16 +30,18 @@ const updateEducation = async (req, res) => {
 
 	if (currentUser) {
 		try {
-			currentUser.education.find(async (education, index) => {
-				if (education.id === id) {
-					currentUser.education[index] = {institution, course, entryDate, graduationDate};
-					const updated = await currentUser.save();
-					return res.status(201).json(updated.education[index]);
-				}
-				return res.status(404).json('Selected education has been previously recently modified!');
-			});
+			const index = currentUser.education.findIndex(education => education.id === id);
+			if (index >= 0) {
+				currentUser.education[index] = {institution, course, entryDate, graduationDate};
+				currentUser.save((err, data) => {
+					if (err) return res.status(500).json(errorHandler(err));
+					return res.status(201).json(data.education[index]);
+				});
+			} else if (currentUser.education.some(education => education.id === id) === false) {
+				return res.status(201).json('Selected education has been previously modified');
+			}
 		} catch (error) {
-			res.status(401).json(errorHandler(error));
+			return res.status(500).json(errorHandler(error));
 		}
 	} else res.status(404).json('user not found');
 };
@@ -50,14 +52,9 @@ const deleteEducation = async (req, res) => {
 	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
-			currentUser.education.find(async (education, index) => {
-				if (education.id === id) {
-					currentUser.education.splice(index, 1);
-					const deleted = await currentUser.save();
-					return res.status(201).json(deleted.education);
-				}
-				return res.status(401).json('Selected education has been previously modified or deleted!');
-			});
+			currentUser.education.pull(id);
+			const deletedEducation = await currentUser.save();
+			return res.status(201).json(deletedEducation.education);
 		} catch (error) {
 			res.status(401).json(errorHandler(error));
 		}

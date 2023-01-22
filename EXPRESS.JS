@@ -31,8 +31,6 @@ app.get('/resume', (req, res, next) => {
 	res.render('resume');
 });
 
-// CONNECTING TO MONGODB
-
 app.get('/', (req, res) => {
 	res.render('');
 });
@@ -41,6 +39,7 @@ app.use('/', (req, res) => {
 	res.render('404page');
 });
 
+// CONNECTING TO MONGODB AND // LISTENING TO PORT
 mongoose.connect(process.env.MONGO_URI, err => {
 	if (err) console.log('Unable to connect to Database');
 	else {
@@ -50,7 +49,4 @@ mongoose.connect(process.env.MONGO_URI, err => {
 		});
 	}
 });
-// LISTENING TO PORT
-
-
 module.exports = app;

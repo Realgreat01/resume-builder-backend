@@ -29,11 +29,15 @@ const submitBasicDetails = async (req, res) => {
 // UPDATE BASIC DETAILS
 const updateBasicDetails = async (req, res) => {
 	const userID = req.user.userID;
-	const {email, username, profilePicture, firstname, lastname, middlename} = await req.body;
+	const {firstname, lastname, middlename} = await req.body;
 	const currentUser = await UserResume.findById(userID);
 	if (currentUser) {
 		try {
-			currentUser.basicDetails = basicDetails;
+			currentUser.basicDetails = {
+				firstname,
+				lastname,
+				middlename,
+			};
 			const data = await currentUser.save();
 			res.status(201).json(data);
 		} catch (error) {

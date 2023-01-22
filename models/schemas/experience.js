@@ -1,5 +1,4 @@
 const {Schema} = require('mongoose');
-
 module.exports.ExperienceSchema = new Schema({
 	company: {
 		type: String,

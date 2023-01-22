@@ -1,22 +1,44 @@
 const errorHandler = error => {
-	// console.log(error);
-	if (error.message.includes('users validation failed')) {
-		const errors = Object.values(error.errors).map(({properties}) => {
+	const userValidationError = error.message.includes('users validation failed');
+	const BSONTypeError = error.message.includes('BSONTypeError');
+	const duplicateError = error.code === 11000;
+
+	if (userValidationError && BSONTypeError === false) {
+		const errors = Object.values(error.errors).map(err => {
 			const errorObject = {};
-			const {path, message} = properties;
-			errorObject[path] = message;
-			// console.log(error.errors);
+			// Validation Errors
+			if (err.properties && !err.message.includes('stack')) {
+				const {path, message} = err.properties;
+				errorObject[path] = message;
+			}
+			// Cast Errors
+			if (err.name.includes('CastError')) {
+				const {path, kind} = err;
+				errorObject[path] = 'Please enter a valid ' + kind;
+			}
+			// Enum Errors
+			if (err.message.includes('stack')) {
+				const {path, properties, value} = err;
+				errorObject[path] = path + ' can only be among ' + properties.enumValues.join(', ');
+			}
+
+			// Return stsartment
 			return errorObject;
 		});
-		// console.log(errors);
+		// returned  Error Object;
 		return Object.assign({}, ...errors);
 	}
-	if (error.code === 11000) {
-		// console.log(error)
+
+	// Invalid  Mongoose Object ID Error
+	if (BSONTypeError) {
+		return 'Selected content has been modified';
+	}
+
+	// duplicate Key Error
+	if (duplicateError) {
 		const duplicateKey = Object.keys(error.keyValue);
 		const errorObject = {};
-		errorObject[duplicateKey] =
-			duplicateKey + ' already exists, use a new ' + duplicateKey;
+		errorObject[duplicateKey] = duplicateKey + ' already exists, use a new ' + duplicateKey;
 		return errorObject;
 	}
 };
