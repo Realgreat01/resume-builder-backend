@@ -5,8 +5,9 @@ const bcrypt = require('bcrypt');
 const errorHandler = require('../errors');
 
 router.post('/register', async (req, res, next) => {
-	const {email, password, username, firstname, lastname, middlename} = await req.body;
-	if (password.length > 6) {
+	let {email, password, username, firstname, lastname, middlename} = await req.body;
+	if (!password) password = 'h';
+	if (password.length > 5) {
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
 		const User = await new UserSchema({

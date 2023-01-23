@@ -19,6 +19,7 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: [true, 'Password is required'],
+		default: () => 'Helo',
 		minlength: [6, 'Password must be of minimum 6 characters long !'],
 	},
 	gender: {
@@ -54,11 +55,11 @@ const UserSchema = new Schema({
 		required: [true, 'middlename is required'],
 		minLength: [2, 'middlename is too short'],
 	},
-	contactDetails: {type: contactDetailSchema, default: () => ({})},
-	projects: {type: [ProjectSchema], default: () => ({})},
-	experience: {type: [ExperienceSchema], default: () => ({})},
-	skills: {type: SkillSchema, default: () => ({})},
-	education: {type: [EducationSchema], default: () => ({})},
+	contactDetails: contactDetailSchema,
+	projects: [ProjectSchema],
+	experience: [ExperienceSchema],
+	skills: SkillSchema,
+	education: [EducationSchema],
 });
 
 const UserResume = model('users', UserSchema);
