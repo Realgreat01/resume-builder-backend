@@ -1,7 +1,9 @@
 const {Schema, model} = require('mongoose');
 const {isEmail} = require('validator');
 
-const {contactDetailSchema} = require('./schemas/contactDetails.js');
+const {BasicDetailSchema} = require('./schemas/basic-details.js');
+const {BioDetailSchema} = require('./schemas/bio-details.js');
+const {ContactDetailSchema} = require('./schemas/contact-details.js');
 const {ProjectSchema} = require('./schemas/projects.js');
 const {SkillSchema} = require('./schemas/skills.js');
 const {ExperienceSchema} = require('./schemas/experience.js');
@@ -10,7 +12,7 @@ const {EducationSchema} = require('./schemas/education.js');
 const UserSchema = new Schema({
 	email: {
 		type: String,
-		minLength: [6, 'email is too short'],
+		minLength: [5, 'email is too short'],
 		required: [true, 'email is required'],
 		lowercase: true,
 		unique: [true, 'email already exists'],
@@ -19,48 +21,30 @@ const UserSchema = new Schema({
 	password: {
 		type: String,
 		required: [true, 'Password is required'],
-		default: () => 'Helo',
-		minlength: [6, 'Password must be of minimum 6 characters long !'],
-	},
-	gender: {
-		type: String,
-		enum: ['Male', 'Female', 'Others'],
-	},
-	profilePicture: {
-		type: String,
-	},
-	bio: {
-		type: String,
-		minLength: [24, 'Bio is too short'],
+		minlength: [5, 'Password must be of minimum 6 characters long !'],
 	},
 	username: {
 		type: String,
 		lowercase: true,
-		minLength: [6, 'username is too short'],
+		minLength: [5, 'username must be of minimum 6 characters long'],
 		required: [true, 'username is required'],
 		unique: [true, 'username already exists'],
 	},
-	firstname: {
+	status: {
 		type: String,
-		minLength: [2, 'lastname is too short'],
-		required: [true, 'lastname is required'],
+		default: 'user',
 	},
-	lastname: {
+	profilePicture: {
 		type: String,
-		minLength: [2, 'lastname is too short'],
-		required: [true, 'lastname is required'],
 	},
-	middlename: {
-		type: String,
-		required: [true, 'middlename is required'],
-		minLength: [2, 'middlename is too short'],
-	},
-	contactDetails: contactDetailSchema,
+	basicDetails: BasicDetailSchema,
+	bioDetails: BioDetailSchema,
+	contactDetails: ContactDetailSchema,
 	projects: [ProjectSchema],
 	experience: [ExperienceSchema],
 	skills: SkillSchema,
 	education: [EducationSchema],
 });
 
-const UserResume = model('users', UserSchema);
-module.exports = UserResume;
+const UserModel = model('users', UserSchema);
+module.exports = UserModel;

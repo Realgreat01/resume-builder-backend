@@ -1,5 +1,5 @@
 const errorHandler = error => {
-	const userValidationError = error.message.includes('users validation failed');
+	const userValidationError = error.message.includes('validation failed');
 	const BSONTypeError = error.message.includes('BSONTypeError');
 	const duplicateError = error.code === 11000;
 
@@ -7,7 +7,7 @@ const errorHandler = error => {
 		const errors = Object.values(error.errors).map(err => {
 			const errorObject = {};
 			// Validation Errors
-			if (err.properties && !err.message.includes('stack')) {
+			if (err.properties && !err.message.includes('enum')) {
 				const {path, message} = err.properties;
 				errorObject[path] = message;
 			}
@@ -17,7 +17,7 @@ const errorHandler = error => {
 				errorObject[path] = 'Please enter a valid ' + kind;
 			}
 			// Enum Errors
-			if (err.message.includes('stack')) {
+			if (err.message.includes('enum')) {
 				const {path, properties, value} = err;
 				errorObject[path] = path + ' can only be among ' + properties.enumValues.join(', ');
 			}

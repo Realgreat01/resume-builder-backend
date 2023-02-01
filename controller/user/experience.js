@@ -1,15 +1,15 @@
-const UserResume = require('../models/ResumeSchema.js');
-const errorHandler = require('../errors');
+const UserSchema = require('../../models/UserSchema.js');
+const errorHandler = require('../../errors');
 const getExperience = async (req, res) => {
 	const {id} = await req.user;
-	const currentUser = await UserResume.findById(id);
+	const currentUser = await UserSchema.findById(id);
 	res.status(200).json(currentUser.experience);
 };
 
 const submitExperience = async (req, res) => {
 	const {id} = await req.user;
 	const {company, role, startDate, endDate, contributions} = await req.body;
-	const currentUser = await UserResume.findById(id);
+	const currentUser = await UserSchema.findById(id);
 	if (currentUser) {
 		try {
 			currentUser.experience.push({company, role, startDate, endDate, contributions});
@@ -25,7 +25,7 @@ const updateExperience = async (req, res) => {
 	const userID = await req.user.id;
 	const {id} = await req.params;
 	const {company, role, startDate, endDate, contributions} = await req.body;
-	const currentUser = await UserResume.findById(userID);
+	const currentUser = await UserSchema.findById(userID);
 	if (currentUser) {
 		try {
 			const index = currentUser.experience.findIndex(experience => experience.id === id);
@@ -48,7 +48,7 @@ const updateExperience = async (req, res) => {
 const deleteExperience = async (req, res) => {
 	const userID = await req.user.id;
 	const {id} = await req.params;
-	const currentUser = await UserResume.findById(userID);
+	const currentUser = await UserSchema.findById(userID);
 	if (currentUser) {
 		try {
 			currentUser.experience.pull(id);

@@ -1,17 +1,16 @@
-const UserResume = require('../models/ResumeSchema.js');
-const EducationSchema = require('../models/schemas/education.js');
-const errorHandler = require('../errors');
+const UserSchema = require('../../models/UserSchema.js');
+const errorHandler = require('../../errors');
 
 const getEducation = async (req, res) => {
 	const {id} = req.user;
-	const {education} = await UserResume.findById(id);
+	const {education} = await UserSchema.findById(id);
 	res.status(200).json(education);
 };
 
 const submitEducation = async (req, res) => {
 	const {id} = req.user;
 	const {institution, course, entryDate, graduationDate} = await req.body;
-	const currentUser = await UserResume.findById(id);
+	const currentUser = await UserSchema.findById(id);
 	if (currentUser) {
 		try {
 			currentUser.education.push({institution, course, entryDate, graduationDate});
@@ -22,10 +21,11 @@ const submitEducation = async (req, res) => {
 		}
 	} else res.status(401).json('user not found');
 };
+
 const updateEducation = async (req, res) => {
 	const {id} = req.params;
 	const userID = req.user.id;
-	const currentUser = await UserResume.findById(userID);
+	const currentUser = await UserSchema.findById(userID);
 	const {institution, course, entryDate, graduationDate} = await req.body;
 
 	if (currentUser) {
@@ -49,7 +49,7 @@ const updateEducation = async (req, res) => {
 const deleteEducation = async (req, res) => {
 	const {id} = await req.params;
 	const userID = req.user.id;
-	const currentUser = await UserResume.findById(userID);
+	const currentUser = await UserSchema.findById(userID);
 	if (currentUser) {
 		try {
 			currentUser.education.pull(id);

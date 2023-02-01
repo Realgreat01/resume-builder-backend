@@ -1,15 +1,16 @@
-const UserResume = require('../models/ResumeSchema.js');
-const errorHandler = require('../errors');
+const UserSchema = require('../../models/UserSchema.js');
+const errorHandler = require('../../errors');
+
 const getProjects = async (req, res) => {
 	const {id} = req.user;
-	const currentUser = await UserResume.findById(id);
+	const currentUser = await UserSchema.findById(id);
 	res.status(200).json(currentUser.projects);
 };
 
 const submitProjects = async (req, res) => {
 	const {id} = req.user;
 	const {projectDescription, projectName, githubRepo, previewLink} = await req.body;
-	const currentUser = await UserResume.findById(id);
+	const currentUser = await UserSchema.findById(id);
 
 	if (currentUser) {
 		try {
@@ -27,7 +28,7 @@ const updateProjects = async (req, res) => {
 	const userID = req.user.id;
 	const {projectDescription, projectName, githubRepo, previewLink} = await req.body;
 
-	const currentUser = await UserResume.findById(userID);
+	const currentUser = await UserSchema.findById(userID);
 	if (currentUser) {
 		try {
 			const index = currentUser.projects.findIndex(project => project.id === id);
@@ -54,7 +55,7 @@ const updateProjects = async (req, res) => {
 const deleteProjects = async (req, res) => {
 	const {id} = await req.params;
 	const userID = await req.user.id;
-	const currentUser = await UserResume.findById(userID);
+	const currentUser = await UserSchema.findById(userID);
 
 	if (currentUser) {
 		try {

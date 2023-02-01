@@ -12,11 +12,12 @@ module.exports.SkillSchema = new Schema({
 	},
 	programmingLanguages: {
 		type: [String],
-		default: () => ({}),
+		lowercase: true,
 		required: [true, 'programming languages are required'],
 	},
 	frameworks: {
 		type: [String],
+		lowercase: true,
 		required: [true, 'frameworks is required'],
 	},
 });

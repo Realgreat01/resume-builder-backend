@@ -5,12 +5,19 @@ const {
 	submitBasicDetails,
 	getBasicDetails,
 	updateBasicDetails,
-} = require('../controller/basic-details');
+} = require('../controller/user/basic-details.js');
+
+const {
+	submitBioDetails,
+	getBioDetails,
+	updateBioDetails,
+} = require('../controller/user/bio-details.js');
+
 const {
 	submitContactDetails,
 	getContactDetails,
 	updateContactDetails,
-} = require('../controller/contact-details');
+} = require('../controller/user/contact-details');
 
 // Projects
 const {
@@ -18,7 +25,7 @@ const {
 	getProjects,
 	updateProjects,
 	deleteProjects,
-} = require('../controller/projects');
+} = require('../controller/user/projects');
 
 // Experience
 const {
@@ -26,10 +33,10 @@ const {
 	getExperience,
 	updateExperience,
 	deleteExperience,
-} = require('../controller/experience.js');
+} = require('../controller/user/experience.js');
 
 // Skills Section
-const {submitSkills, getSkills} = require('../controller/skills.js');
+const {submitSkills, getSkills} = require('../controller/user/skills.js');
 
 // Education
 const {
@@ -37,12 +44,17 @@ const {
 	getEducation,
 	updateEducation,
 	deleteEducation,
-} = require('../controller/education.js');
+} = require('../controller/user/education.js');
 
 // Routes
 router.get('/basic-details', getBasicDetails);
 router.post('/basic-details', submitBasicDetails);
 router.put('/basic-details', updateBasicDetails);
+
+// Bio Details
+router.get('/bio-details', getBioDetails);
+router.post('/bio-details', submitBioDetails);
+router.put('/bio-details', updateBioDetails);
 
 // contact details
 router.get('/contact-details', getContactDetails);

@@ -12,7 +12,6 @@ module.exports.ProjectSchema = new Schema({
 	},
 	githubRepo: {
 		type: String,
-		unique: true,
 		required: [true, 'Project repository is required'],
 		validate: [isURL, 'Enter a valid URL'],
 	},
