@@ -7,6 +7,11 @@ const CompanySchema = new Schema({
 		validate: [isEmail, 'Please enter a valid email'],
 		required: [true, 'company email is required'],
 	},
+	status: {
+		type: String,
+		default: 'company',
+		immutable: true,
+	},
 	company_id: {
 		type: String,
 		unique: [true, 'company ID already in use'],
@@ -31,7 +36,7 @@ const CompanySchema = new Schema({
 	},
 	company_logo: {
 		type: String,
-		default: () => '',
+		default: '',
 	},
 });
 

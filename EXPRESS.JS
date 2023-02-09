@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
 const mongoose = require('mongoose');
+const swaggerUI = require('swagger-ui-express');
+
 require('dotenv').config();
 require('./controller/docs/privacy.js');
 // MIDDLEWARES
@@ -18,7 +19,7 @@ const isUser = require('./auth/users-auth');
 const isCompany = require('./auth/company-auth');
 
 const usersAuthRoute = require('./router/users-auth-routes');
-const usersRoute = require('./router/users-routes');
+const usersFormRoute = require('./router/users-routes');
 const singleUserRoute = require('./router/single-user-route');
 
 const companyAuthRoute = require('./router/company-auth-routes');
@@ -27,16 +28,25 @@ const companyRoute = require('./router/company-routes');
 const jobRoute = require('./router/job-routes');
 const testRoute = require('./test-routes');
 
+const uploadImage = require('./utils/multer.js');
+const swaggerDocs = require('./utils/swagger.js');
+
 //USING ROUTES MIDDLEWARE
 app.use('/api/auth/users', usersAuthRoute);
 app.use('/api/auth/company', companyAuthRoute);
-app.use('/api/forms', authenticateUser, isUser, usersRoute);
-app.use('/api/company', authenticateUser, isUser, companyRoute);
+
+app.use('/api/forms', authenticateUser, isUser, usersFormRoute);
+app.use('/api/company',  companyRoute);
+
 app.use('/api/job', authenticateUser, jobRoute);
 app.use('/api/users', singleUserRoute);
 app.use('/test', testRoute);
+app.use('/api/upload-image', authenticateUser, uploadImage);
+
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // ROUTES
+
 app.get('/resume', (req, res, next) => {
 	res.render('resume');
 });
@@ -55,7 +65,7 @@ mongoose.connect(process.env.MONGO_URI, async err => {
 	else {
 		console.log('connected to Database successfully');
 		app.listen(PORT, () => {
-			console.log(`App is listening to ${PORT}`);
+			console.log('App is listening to port ', PORT);
 		});
 	}
 });

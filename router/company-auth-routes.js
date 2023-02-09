@@ -53,19 +53,26 @@ router.post('/register', async (req, res, next) => {
 	} else res.status(401).json('Password must be of minimum 6 characters long!');
 });
 
-// router.post('/login', async (req, res) => {
-// 	const {email, password} = await req.body;
-// 	const currentUser = await CompanySchema.findOne({email});
-// 	if (currentUser) {
-// 		const passwordIsCorrect = await bcrypt.compare(password, currentUser.password);
+router.post('/login', async (req, res) => {
+	const {email, company_password} = await req.body;
+	const currentCompany = await CompanySchema.findOne({email});
 
-// 		if (passwordIsCorrect) {
-// 			const {id, status} = currentUser;
-// 			const token = jwt.sign({id, status}, process.env.ACCESS_TOKEN);
-// 			return res.header({'auth-token': token}).json({token});
-// 		} else return res.status(400).json({error: 'email or password not correct!'});
-// 	} else return res.status(404).json({error: 'email or password not correct!'});
-// });
+	try {
+		if (currentCompany) {
+			const passwordIsCorrect = await bcrypt.compare(
+				company_password,
+				currentCompany.company_password
+			);
+			if (passwordIsCorrect) {
+				const {id} = currentCompany;
+				const token = jwt.sign({id, status: 'company'}, process.env.ACCESS_TOKEN);
+				return res.header({'auth-token': token}).json({token});
+			} else return res.status(400).json({error: 'email or password not correct!'});
+		}
+	} catch (error) {
+		return res.status(404).json({error});
+	}
+});
 
 router.post('/change-password', () => {});
 router.post('/logout', (req, res, next) => {

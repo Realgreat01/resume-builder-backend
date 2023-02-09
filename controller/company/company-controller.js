@@ -2,7 +2,6 @@ const CompanySchema = require('../../models/CompanySchema.js');
 const errorHandler = require('../../errors');
 
 const getAllCompany = async (req, res) => {
-	const {id} = req.user;
 	const allCompanies = await CompanySchema.find();
 	res.status(200).json(allCompanies);
 };

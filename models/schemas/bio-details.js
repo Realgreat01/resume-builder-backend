@@ -4,7 +4,7 @@ module.exports.BioDetailSchema = new Schema({
 		type: String,
 		required: [true, 'Please enter a brief description of your skills and competence'],
 		minLength: [100, 'About should be a minimum of 100 characters'],
-		maxLength: [300, 'About should be a maximum of 300 characters'],
+		maxLength: [350, 'About should be a maximum of 350 characters'],
 	},
 	shortbio: {
 		type: String,

@@ -8,6 +8,9 @@ const {ProjectSchema} = require('./schemas/projects.js');
 const {SkillSchema} = require('./schemas/skills.js');
 const {ExperienceSchema} = require('./schemas/experience.js');
 const {EducationSchema} = require('./schemas/education.js');
+const {BlogSchema} = require('./schemas/blog-contents.js');
+const {HobbieSchema} = require('./schemas/hobbies.js');
+const {ReferenceSchema} = require('./schemas/references.js');
 
 const UserSchema = new Schema({
 	email: {
@@ -34,16 +37,21 @@ const UserSchema = new Schema({
 		type: String,
 		default: 'user',
 	},
-	profilePicture: {
+	profile_picture: {
 		type: String,
+		default:
+			'http://res.cloudinary.com/dirmjuvyr/image/upload/v1675871225/2022blank-profile-picture-973460_640.webp',
 	},
 	basicDetails: BasicDetailSchema,
 	bioDetails: BioDetailSchema,
+	blog: [BlogSchema],
 	contactDetails: ContactDetailSchema,
 	projects: [ProjectSchema],
 	experience: [ExperienceSchema],
 	skills: SkillSchema,
 	education: [EducationSchema],
+	hobbies: HobbieSchema,
+	reference: ReferenceSchema,
 });
 
 const UserModel = model('users', UserSchema);

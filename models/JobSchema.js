@@ -14,6 +14,11 @@ const JobSchema = new Schema({
 		type: String,
 		required: [true, 'job description is required'],
 	},
+	job_type: {
+		type: String,
+		enum: ['Fulltime', 'Part-Time', 'Contract', 'Internship', 'Voluntary'],
+		required: [true, 'job type is required'],
+	},
 	posted_on: {
 		type: Date,
 		default: () => Date.now(),

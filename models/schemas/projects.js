@@ -10,6 +10,14 @@ module.exports.ProjectSchema = new Schema({
 		type: String,
 		required: [true, 'Project name is required'],
 	},
+	projectLesson: {
+		type: String,
+		required: [true, 'Project main lesson is required'],
+	},
+	projectTools: {
+		type: [String],
+		required: [true, 'Project tools is required'],
+	},
 	githubRepo: {
 		type: String,
 		required: [true, 'Project repository is required'],

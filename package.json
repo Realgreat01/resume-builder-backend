@@ -8,19 +8,25 @@
 	"private": false,
 	"scripts": {
 		"dev": "nodemon EXPRESS.JS",
-		"start": "nodemon EXPRESS.JS"
+		"start": "nodemon EXPRESS.JS",
+		"swagger-autogen": "node utils/swagger-autogen.js"
 	},
 	"dependencies": {
 		"axios": "^1.2.3",
 		"bcrypt": "^5.0.1",
+		"cloudinary": "^1.33.0",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.3",
 		"ejs": "^3.1.8",
 		"express": "^4.18.1",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.6.4",
+		"multer": "^1.4.5-lts.1",
 		"nodemailer": "^6.9.0",
 		"nodemon": "^2.0.20",
+		"swagger-autogen": "^2.23.0",
+		"swagger-jsdoc": "^6.2.8",
+		"swagger-ui-express": "^4.6.0",
 		"validator": "^13.7.0"
 	}
 }

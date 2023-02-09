@@ -6,11 +6,10 @@ router.get('/:username', async (req, res, next) => {
 	const {username} = req.params;
 	try {
 		const User = await UserSchema.findOne({username});
-		if (User) return res.status(200).json(User.basicDetails);
-		throw new Error('user not found');
-	} catch (e) {
-		console.log(e);
-		return res.status(404).json({e});
+		if (User) return res.status(200).json(User);
+	} catch (error) {
+		console.log(error);
+		return res.status(404).json({error: 'No user with username ' + username + ' found'});
 	}
 });
 

@@ -23,7 +23,6 @@ const getCompanyJob = async (req, res) => {
 
 const postNewJob = async (req, res) => {
 	const {id} = req.user;
-
 	try {
 		const newJob = await (
 			await JobSchema.create(req.body)
