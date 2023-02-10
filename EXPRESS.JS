@@ -36,12 +36,12 @@ app.use('/api/auth/users', usersAuthRoute);
 app.use('/api/auth/company', companyAuthRoute);
 
 app.use('/api/forms', authenticateUser, isUser, usersFormRoute);
-app.use('/api/company',  companyRoute);
+app.use('/api/company', companyRoute);
 
 app.use('/api/job', authenticateUser, jobRoute);
 app.use('/api/users', singleUserRoute);
 app.use('/test', testRoute);
-app.use('/api/upload-image', authenticateUser, uploadImage);
+app.use('/api/upload-image', authenticateUser, isUser, uploadImage);
 
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 

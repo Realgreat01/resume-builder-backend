@@ -36,7 +36,10 @@ const submitBasicDetails = async (req, res) => {
 			};
 			currentUser.contactDetails = {phone_number};
 			const data = await currentUser.save();
-			res.status(201).json(data.basicDetails);
+			res.status(201).json({
+				basic_details: data.basicDetails,
+				username: currentUser.username,
+			});
 		} catch (error) {
 			console.log(error);
 			res.status(402).json(errorHandler(error));
