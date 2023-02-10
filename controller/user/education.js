@@ -9,11 +9,10 @@ const getEducation = async (req, res) => {
 
 const submitEducation = async (req, res) => {
 	const {id} = req.user;
-	const {institution, course, entryDate, graduationDate} = await req.body;
 	const currentUser = await UserSchema.findById(id);
 	if (currentUser) {
 		try {
-			currentUser.education.push({institution, course, entryDate, graduationDate});
+			currentUser.education.push(req.body);
 			const data = await currentUser.save();
 			res.status(201).json(data.education[data.education.length - 1]);
 		} catch (error) {
@@ -26,13 +25,12 @@ const updateEducation = async (req, res) => {
 	const {id} = req.params;
 	const userID = req.user.id;
 	const currentUser = await UserSchema.findById(userID);
-	const {institution, course, entryDate, graduationDate} = await req.body;
 
 	if (currentUser) {
 		try {
 			const index = currentUser.education.findIndex(education => education.id === id);
 			if (index >= 0) {
-				currentUser.education[index] = {institution, course, entryDate, graduationDate};
+				currentUser.education[index] = req.body;
 				currentUser.save((err, data) => {
 					if (err) return res.status(500).json(errorHandler(err));
 					return res.status(201).json(data.education[index]);

@@ -9,12 +9,11 @@ const getProjects = async (req, res) => {
 
 const submitProjects = async (req, res) => {
 	const {id} = req.user;
-	const {projectDescription, projectName, githubRepo, previewLink} = await req.body;
 	const currentUser = await UserSchema.findById(id);
 
 	if (currentUser) {
 		try {
-			currentUser.projects.push({projectDescription, projectName, githubRepo, previewLink});
+			currentUser.projects.push(req.body);
 			const data = await currentUser.save();
 			res.status(201).json(data.projects[data.projects.length - 1]);
 		} catch (error) {
@@ -26,19 +25,13 @@ const submitProjects = async (req, res) => {
 const updateProjects = async (req, res) => {
 	const {id} = req.params;
 	const userID = req.user.id;
-	const {projectDescription, projectName, githubRepo, previewLink} = await req.body;
 
 	const currentUser = await UserSchema.findById(userID);
 	if (currentUser) {
 		try {
 			const index = currentUser.projects.findIndex(project => project.id === id);
 			if (index >= 0) {
-				currentUser.projects[index] = {
-					projectDescription,
-					projectName,
-					githubRepo,
-					previewLink,
-				};
+				currentUser.projects[index] = req.body;
 				currentUser.save((err, data) => {
 					if (err) return res.status(500).json(errorHandler(err));
 					return res.status(201).json(data.projects[index]);

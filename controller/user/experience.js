@@ -8,11 +8,10 @@ const getExperience = async (req, res) => {
 
 const submitExperience = async (req, res) => {
 	const {id} = await req.user;
-	const {company, role, startDate, endDate, contributions} = await req.body;
 	const currentUser = await UserSchema.findById(id);
 	if (currentUser) {
 		try {
-			currentUser.experience.push({company, role, startDate, endDate, contributions});
+			currentUser.experience.push(req.body);
 			const data = await currentUser.save();
 			res.status(201).json(data.experience[data.experience.length - 1]);
 		} catch (error) {
@@ -24,14 +23,13 @@ const submitExperience = async (req, res) => {
 const updateExperience = async (req, res) => {
 	const userID = await req.user.id;
 	const {id} = await req.params;
-	const {company, role, startDate, endDate, contributions} = await req.body;
 	const currentUser = await UserSchema.findById(userID);
 	if (currentUser) {
 		try {
 			const index = currentUser.experience.findIndex(experience => experience.id === id);
 			console.log(index);
 			if (index >= 0) {
-				currentUser.experience[index] = {company, role, startDate, endDate, contributions};
+				currentUser.experience[index] = req.body;
 				currentUser.save((err, data) => {
 					if (err) return res.status(500).json(errorHandler(err));
 					return res.status(201).json(data.experience[index]);
