@@ -48,7 +48,7 @@ router.post('/', createDirectory, upload.single('profile_picture'), async (req, 
 		}
 	} catch (error) {
 		createDirectory();
-		fs.mkdir('upload', {recursive: true}, err => {});
+		fs.mkdir('uploads', {recursive: true}, err => {});
 		return res.status(500).json({error: 'unable to upload file', message: error});
 	}
 });
