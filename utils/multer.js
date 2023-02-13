@@ -24,6 +24,16 @@ const options = {
 
 router.post('/', upload.single('profile_picture'), async (req, res, next) => {
 	//converting buffer to usable format
+
+	/*  #swagger.consumes = ['multipart/form-data']
+		#swagger.description = 'uploading user profile picture '
+		#swagger.summary = 'Some for user profile picture '
+        #swagger.parameters['profile_picture'] = {
+		in: 'formData',
+		type: 'file',
+		required: 'true',
+    }
+	*/
 	const {id} = req.user;
 	const currentUser = await UserSchema.findById(id);
 	try {

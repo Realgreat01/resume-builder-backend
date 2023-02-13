@@ -6,6 +6,7 @@ const swaggerOptions = {
 			title: 'QuickHire API',
 			description: 'A documentation',
 		},
+		
 		contact: {name: 'The Best Developer'},
 		servers: ['http://localhost:3000'],
 	},

@@ -29,33 +29,80 @@ const jobRoute = require('./router/job-routes');
 const testRoute = require('./test-routes');
 
 const uploadImage = require('./utils/multer.js');
-const swaggerDocs = require('./utils/swagger.js');
+// const swaggerDocs = require('./utils/swagger.js');
+const swaggerOutputFile = require('./swagger-output.json');
 
 //USING ROUTES MIDDLEWARE
-app.use('/api/auth/users', usersAuthRoute);
-app.use('/api/auth/company', companyAuthRoute);
 
-app.use('/api/forms', authenticateUser, isUser, usersFormRoute);
-app.use('/api/company', companyRoute);
+app.use(
+	'/api/auth/users',
+	/*  #swagger.tags = ['Users Auth']
+	 */
+	usersAuthRoute
+);
+app.use(
+	'/api/auth/company',
+	/*  #swagger.tags = ['Company Auth']
+	 */
+	companyAuthRoute
+);
 
-app.use('/api/job', authenticateUser, jobRoute);
-app.use('/api/users', singleUserRoute);
+app.use(
+	'/api/forms',
+	/*  #swagger.tags = ['Users Details']
+	/* #swagger.security = [{
+               "bearerAuth": []
+        }] */
+	 
+	authenticateUser,
+	isUser,
+	usersFormRoute
+);
+app.use(
+	'/api/company',
+	/*  #swagger.tags = ['Company Details']
+	 */ companyRoute
+);
+
+app.use(
+	'/api/job',
+	/*  #swagger.tags = ['Job']
+	 */
+	authenticateUser,
+	jobRoute
+);
+app.use(
+	'/api/users',
+	/*  #swagger.tags = ['Users']
+	 */ singleUserRoute
+);
 app.use('/test', testRoute);
-app.use('/api/upload-image', authenticateUser, isUser, uploadImage);
+app.use(
+	'/api/upload-image',
+	/*  #swagger.tags = ['Users Details']
+         
+        */
+	authenticateUser,
+	isUser,
+	uploadImage
+);
 
-app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerOutputFile));
 
 // ROUTES
 
 app.get('/resume', (req, res, next) => {
+	// #swagger.ignore = true
 	res.render('resume');
 });
 
 app.get('/', (req, res) => {
+	// #swagger.ignore = true
 	res.render('');
 });
 
 app.use('/', (req, res) => {
+	// #swagger.ignore = true
 	res.render('404page');
 });
 
