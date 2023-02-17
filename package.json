@@ -7,8 +7,8 @@
 	"author": "Samson Realgreat",
 	"private": false,
 	"scripts": {
-		"dev": "nodemon EXPRESS.JS",
-		"start": "nodemon EXPRESS.JS",
+		"dev": "npm run start &&npm run swagger-autogen  ",
+		"start": "nodemon EXPRESS.JS && npm run swagger-autogen",
 		"swagger-autogen": "node utils/swagger-autogen.js"
 	},
 	"dependencies": {

@@ -3,7 +3,10 @@
   "info": {
     "version": "1.0.0",
     "title": "QuickHire API",
-    "description": "API Documentation for QuickHire API. The world best hiring solution for developers!"
+    "description": "API Documentation for QuickHire API. The world best hiring solution for developers!",
+    "contact": {
+      "name": "The Best Developer"
+    }
   },
   "paths": {
     "/api/auth/users/register": {
@@ -1131,8 +1134,5 @@
         "bearerFormat": "JWT"
       }
     }
-  },
-  "contact": {
-    "name": "The Best Developer"
   }
 }
