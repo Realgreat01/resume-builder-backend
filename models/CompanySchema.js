@@ -14,7 +14,9 @@ const CompanySchema = new Schema({
 	},
 	company_id: {
 		type: String,
-		unique: [true, 'company ID already in use'],
+		lowercase: true,
+		immutable: true,
+		unique: [true, 'company id already in use'],
 		required: [true, 'company id is required'],
 	},
 	company_password: {
@@ -32,7 +34,6 @@ const CompanySchema = new Schema({
 	},
 	company_description: {
 		type: String,
-		required: [true, 'company description is required'],
 	},
 	company_logo: {
 		type: String,

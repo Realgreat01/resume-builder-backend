@@ -3,10 +3,10 @@ const IncrementSchema = require('../../models/IncrementSchema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const errorHandler = require('../../errors');
+const {isEmail} = require('validator');
 
 const registerCompany = async (req, res, next) => {
 	let {
-		company_description,
 		company_location,
 		company_name,
 		company_email,
@@ -23,8 +23,7 @@ const registerCompany = async (req, res, next) => {
 		const UniqueID = STANDARD_COUNT + count;
 
 		// Adding New Company to Database
-		const User = new CompanySchema({
-			company_description,
+		const Company = new CompanySchema({
 			company_location,
 			company_name,
 			company_email,
@@ -34,15 +33,15 @@ const registerCompany = async (req, res, next) => {
 
 		// Performing Data Manipulations and Authentication
 		try {
-			const newUser = await User.save();
-			console.log('hello');
+			const newCompany = await Company.save();
 			const token = jwt.sign(
-				{id: newUser.id, status: newUser.status},
+				{id: newCompany.id, status: newCompany.status},
 				process.env.ACCESS_TOKEN
 			);
+			const createdCompany = Object.assign(newCompany, {company_password: undefined});
 			res.status(201)
 				.header({'auth-token': token})
-				.json({newUser, token, status: newUser.status});
+				.json({company: createdCompany, token, status: newCompany.status});
 
 			// Try to change this line to only change one unit of databse instead of creating bew entry
 			const count = (await IncrementSchema.find()).length;
@@ -54,24 +53,30 @@ const registerCompany = async (req, res, next) => {
 };
 
 const signInCompany = async (req, res) => {
-	const {email, company_password} = await req.body;
-	const currentCompany = await CompanySchema.findOne({email});
+	let {company_password, emailOrCompanyID} = req.body;
 
-	try {
-		if (currentCompany) {
-			const passwordIsCorrect = await bcrypt.compare(
-				company_password,
-				currentCompany.company_password
-			);
-			if (passwordIsCorrect) {
-				const {id} = currentCompany;
-				const token = jwt.sign({id, status: 'company'}, process.env.ACCESS_TOKEN);
-				return res.header({'auth-token': token}).json({token});
-			} else return res.status(400).json({error: 'email or password not correct!'});
-		}
-	} catch (error) {
-		return res.status(404).json({error});
-	}
+	if (company_password === undefined) company_password = '';
+	if (emailOrCompanyID === undefined) emailOrCompanyID = '';
+	let data = {};
+	if (isEmail(emailOrCompanyID)) data = {company_email: emailOrCompanyID};
+	else data = {company_id: emailOrCompanyID};
+	console.log(data);
+	const currentCompany = await CompanySchema.findOne(data);
+	if (currentCompany) {
+		console.log(currentCompany);
+		const passwordIsCorrect = await bcrypt.compare(company_password, currentCompany.company_password);
+		console.log(await passwordIsCorrect);
+		if (passwordIsCorrect) {
+			console.log(await passwordIsCorrect);
+
+			const {id, status} = currentCompany;
+			const token = jwt.sign({id, status}, process.env.ACCESS_TOKEN);
+			return res
+				.status(201)
+				.header({'auth-token': token})
+				.json({token, company_id: currentCompany.company_id});
+		} else return res.status(400).json({error: 'invalid credentials!'});
+	} else return res.status(400).json({error: 'invalid credentials!'});
 };
 
 const changeCompanyPassword = async (req, res, next) => {};
@@ -83,16 +88,6 @@ const logoutCompany = async (req, res, next) => {
 const forgotCompanyPassword = async (req, res, next) => {};
 
 module.exports = {
-	/*  #swagger.tags = ['Company']
-            #swagger.description = 'Endpoint to add a user.' */
-
-	/*  #swagger.parameters['obj'] = {
-                in: 'body',
-                description: 'User information.',
-                required: true,
-                schema: { $ref: "#/definitions/AddUser" }
-        } */
-
 	registerCompany,
 	signInCompany,
 	changeCompanyPassword,
