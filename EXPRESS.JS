@@ -14,26 +14,30 @@ app.set('view engine', 'ejs');
 // ROUTES
 
 app.use('/api', apiRoutes);
-app.get('/resume', (req, res, next) => {
-	// #swagger.ignore = true
-	res.render('resume');
+app.get('/test', (req, res) => {
+  res.json({ message: 'app is working' });
 });
+app.get('/resume', (req, res, next) => {
+  // #swagger.ignore = true
+  res.render('resume');
+});
+
 app.get('/', (req, res) => {
-	// #swagger.ignore = true
-	res.render('');
+  // #swagger.ignore = true
+  res.render('');
 });
 app.use('/', (req, res) => {
-	// #swagger.ignore = true
-	res.render('404page');
+  // #swagger.ignore = true
+  res.render('404page');
 });
 
 // CONNECTING TO MONGODB AND // LISTENING TO PORT
 mongoose.connect(process.env.MONGO_URI, async err => {
-	if (err) console.log('Unable to connect to Database');
-	else {
-		console.log('connected to Database successfully');
-		app.listen(PORT, () => {
-			console.log('App is listening to port ', PORT);
-		});
-	}
+  if (err) console.log('Unable to connect to Database');
+  else {
+    console.log('connected to Database successfully');
+    app.listen(PORT, () => {
+      console.log('App is listening to port ', PORT);
+    });
+  }
 });

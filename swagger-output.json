@@ -9,6 +9,17 @@
     }
   },
   "paths": {
+    "/test": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/auth/users/register": {
       "post": {
         "tags": [
@@ -947,6 +958,31 @@
         ]
       }
     },
+    "/api/forms/dummy-data": {
+      "post": {
+        "tags": [
+          "Users Details"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "402": {
+            "description": "Payment Required"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/api/company/": {
       "get": {
         "tags": [
@@ -1137,6 +1173,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "security": [
