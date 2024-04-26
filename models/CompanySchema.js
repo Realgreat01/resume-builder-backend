@@ -28,16 +28,32 @@ const CompanySchema = new Schema({
     type: String,
     required: [true, 'company name is required'],
   },
+  company_website: {
+    type: String,
+  },
   company_location: {
     type: String,
     required: [true, 'company location is required'],
   },
   company_description: {
     type: String,
+    default: '',
   },
   company_logo: {
     type: String,
     default: '',
+  },
+  company_cover_image: {
+    type: String,
+    default: '',
+  },
+  company_category: {
+    type: String,
+    required: [true, 'company category is required'],
+  },
+  company_employee_count: {
+    type: Number,
+    default: 10,
   },
 });
 

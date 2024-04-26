@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const UserSchema = require('../models/UserSchema.js');
 
 const {
   submitBasicDetails,
@@ -80,31 +79,5 @@ router.get('/education', getEducation);
 router.post('/education', submitEducation);
 router.put('/education/:id', updateEducation);
 router.delete('/education/:id', deleteEducation);
-
-router.post('/dummy-data', async (req, res) => {
-  const dataSample = [
-    {
-      company: 'Microsoft Corporation',
-      contributions:
-        '<p><span style="color: var(--tw-prose-bold);">Led a team of four developers</span> in a successful migration of legacy systems to a modern microservices architecture, which improved scalability and maintainability of backend services.</p>',
-      startDate: '2022-10-10T00:00:00.000Z',
-      endDate: '2024-01-01T00:00:00.000Z',
-      role: 'Frontend Developer',
-    },
-  ];
-
-  const { id } = req.user;
-  const currentUser = await UserSchema.findById(id);
-
-  if (currentUser) {
-    try {
-      currentUser.experience = dataSample;
-      await currentUser.save();
-      res.status(201).json('Successful');
-    } catch (error) {
-      res.status(402).json(error);
-    }
-  } else res.status(402).json('user not found');
-});
 
 module.exports = router;

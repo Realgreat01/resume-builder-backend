@@ -1107,7 +1107,7 @@
         ]
       }
     },
-    "/api/company/public/": {
+    "/api/public/company/": {
       "get": {
         "tags": [
           "Public"
@@ -1129,7 +1129,7 @@
         ]
       }
     },
-    "/api/company/public/{company_id}": {
+    "/api/public/company/{company_id}": {
       "get": {
         "tags": [
           "Public"
